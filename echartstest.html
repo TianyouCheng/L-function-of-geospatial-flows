@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="./Function/echarts.js"></script>
+    <script type="text/javascript" src="./Function/echarts-gl.min.js"></script>
+    <script type="text/javascript" src="./Function/GenerateRandom.js"></script>
+    <script type="text/javascript" src="./Function/GenerateGraph.js"></script>
+    <!-- <script type="text/javascript" src="./Function/GenerateGraph-T.js"></script> -->
+    <script type="text/javascript" src="./Function/GenerateGraph-LT.js"></script>
+    <script type="text/javascript" src="./Function/Calculate.js"></script>
+    <!-- <script type="text/javascript" src="./Function/Calculate-T.js"></script> -->
+    <script type="text/javascript" src="./Function/Calculate-LT.js"></script>
+    <script type="text/javascript" src="./Function/DetectCluster.js"></script>
+    <script type="text/javascript" src="./Function/DetectCluster-T.js"></script>
+    <title>K Func</title>
+</head>
+
+<body style="height: 100%; margin: 0">
+  <div id="container" style="height: 100%"></div>
+    <!-- <div id="main2" class="chart-container" style="width:610px; height:610px;float:left"></div>
+    <div id="main3" class="chart-container" style="width:610px; height:610px;float:left"></div>
+    <div id="main4" class="chart-container" style="width:610px; height:610px;float:left"></div>
+    <div id="main5" class="chart-container" style="width:610px; height:610px;float:left"></div>
+    <div id="main6" class="chart-container" style="width:610px; height:610px;float:left"></div> -->
+    <script type="text/javascript">
+      var dom = document.getElementById("container");
+      var myChart = echarts.init(dom);
+      var app = {};
+      
+      var option;
+      
+      
+      
+      var Mydata=[];
+      Mydata[0]=[0.0,0.0,0];
+      Mydata[1]=[0.0,0.300,5];
+      Mydata[2]=[0.300,0.0,1];
+      Mydata[3]=[0.300,0.300,255];
+      option = {
+      tooltip: {},
+      backgroundColor: '#fff',
+      xAxis3D: {
+        type: 'value'
+      },
+      yAxis3D: {
+        type: 'value'
+      },
+      zAxis3D: {
+        type: 'value',
+        min: 0,
+        max: 100
+      },
+      grid3D: {
+        viewControl: {
+          alpha: 20,
+          beta: -30
+        },
+        postEffect: {
+          enable: true,
+          SSAO: {
+            enable: true
+          }
+        },
+        boxDepth: 120,
+        light: {
+          main: {
+            shadow: true,
+            intensity: 2
+          },
+          ambientCubemap: {
+            texture: './Source/canyon.hdr',
+            exposure: 2,
+            diffuseIntensity: 0.2,
+            specularIntensity: 1
+          }
+        }
+      },
+      series: [
+        {
+          type: 'bar3D',
+          shading: 'realistic',
+          barSize: 1,
+          wireframe: {
+            show: false
+          },
+          itemStyle: {
+            color: function (params) {
+              var i = params.dataIndex;
+              var r = 0;
+              var g = 0;
+              var b = 0;
+              return 'rgb(' + [r, g, b].join(',') + ')';
+            }
+          },
+          data: Mydata
+        }
+      ]
+    }
+      
+      if (option && typeof option === 'object') {
+          myChart.setOption(option);
+      }
+      
+              </script>
+</body>
+
+</html>

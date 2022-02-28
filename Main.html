@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,13 +9,16 @@
     <script type="text/javascript" src="./Function/echarts-gl.min.js"></script>
     <script type="text/javascript" src="./Function/GenerateRandom.js"></script>
     <script type="text/javascript" src="./Function/GenerateGraph.js"></script>
-    <script type="text/javascript" src="./Function/GenerateGraph-T.js"></script>
+    <!-- <script type="text/javascript" src="./Function/GenerateGraph-T.js"></script> -->
+    <script type="text/javascript" src="./Function/GenerateGraph-LT.js"></script>
     <script type="text/javascript" src="./Function/Calculate.js"></script>
-    <script type="text/javascript" src="./Function/Calculate-T.js"></script>
+    <!-- <script type="text/javascript" src="./Function/Calculate-T.js"></script> -->
+    <script type="text/javascript" src="./Function/Calculate-LT.js"></script>
     <script type="text/javascript" src="./Function/DetectCluster.js"></script>
     <script type="text/javascript" src="./Function/DetectCluster-T.js"></script>
     <title>K Func</title>
 </head>
+
 <body>
     <div id="main1" class="chart-container" style="width:610px; height:610px;float:left"></div>
     <div id="main2" class="chart-container" style="width:610px; height:610px;float:left"></div>
@@ -23,38 +27,45 @@
     <div id="main5" class="chart-container" style="width:610px; height:610px;float:left"></div>
     <div id="main6" class="chart-container" style="width:610px; height:610px;float:left"></div>
     <script>
-    //平面
-    //在generateLData函数中，距离r限定在0-1，有待改正
-    //在时间的计算中，距离t也限定在0-1
-    // data_Random=Generate_random(100);
-    // data_R01=Gendrate_random_Round(100,0.1,0.2,0.3,0.7,0.7);
-    // data_R005=Gendrate_random_Round(100,0.05,0.4,0.1,0.75,0.75);
-    
-    // var myrounddata=Generate_series_round_detect(0.1,data_Random,data_R01,data_R005);//第一个参数是半径
-    // Generate_Graph_Round(1,myrounddata);
+        //平面
+        //在generateLData函数中，距离r限定在0-1，有待改正
+        //在时间的计算中，距离t也限定在0-1
+        // data_Random=Generate_random(100);
+        // data_R01=Gendrate_random_Round(100,0.1,0.2,0.4,0.7,0.7);
+        // data_R005=Gendrate_random_Round(100,0.05,0.4,0.2,0.7,0.7);
 
-    // Funcdata = data_Random.concat(data_R01);
-    // Funcdata=Funcdata.concat(data_R005);
-    // Generate_Graph_L(2,Funcdata);
-    // Generate_Graph_L_deriv(3,Funcdata);
+        // var myrounddata=Generate_series_round_detect(0.2,data_Random,data_R01,data_R005);//第一个参数是半径
+        // var myrounddata=Generate_series_round(data_Random,data_R01);//第一个参数是半径
+        // Generate_Graph_Round(1,myrounddata);
 
-    //三维
-    data_Random_3d=Generate_random_3d(100);
-    data_R01_3d=Generate_random_Sphere(100,0.1,0.2,0.3,0.2,0.7,0.7,0.8);
-    data_R005_3d=Generate_random_Sphere(100,0.05,0.4,0.1,0.4,0.75,0.75,0.8);
-    data_R01_3d_avg=Generate_random_avg_Sphere(100,0.1,0.2,0.3,0.7,0.7);
-    
-    var myspheredata=Generate_series_sphere_detect(0.05,0.1,data_Random_3d,data_R01_3d_avg,data_R005_3d);//第一个参数是半径,第二个时间窗口
-    Generate_Graph_sphere_detect(4,myspheredata);
-    
-    // Funcdata_3d=data_Random_3d.concat(data_R01_3d);
-    // Funcdata_3d=Funcdata_3d.concat(data_R005_3d);
-    // Generate_Graph_L_t(5,Funcdata_3d);
-    // Generate_Graph_L_deriv_t(6,Funcdata_3d);
+        // Funcdata = data_Random.concat(data_R01);
+        // Funcdata=Funcdata.concat(data_R005);
+        // Generate_Graph_L(2,Funcdata);
+        // Generate_Graph_L_deriv(3,Funcdata);
 
+        //三维
+        data_Random_3d = Generate_random_3d(100);
+        data_R01_3d = Generate_random_Sphere(200, 0.1, 0.2, 0.4, 0.2, 0.7, 0.7, 0.8);
+        data_R005_3d = Generate_random_Sphere(100, 0.05, 0.4, 0.2, 0.8, 0.7, 0.7, 0.2);
+        data_R01_3d_avg=Generate_random_avg_Sphere(100,0.1,0.2,0.4,0.7,0.7);
+
+        // var myspheredata=Generate_series_sphere_detect(0.1,0.5,data_Random_3d,data_R005_3d,data_R01_3d_avg);//第一个参数是半径,第二个时间窗口
+        // Generate_Graph_sphere_detect(2,myspheredata);
+        // 生成检测图
+        var myspheredata = Generate_series_sphere(data_Random_3d, data_R01_3d);//第一个参数是半径,第二个时间窗口
+        Generate_Graph_sphere(1, myspheredata);
+
+        Funcdata_3d=data_Random_3d.concat(data_R01_3d);
+        // Funcdata_3d=Funcdata_3d.concat(data_R005_3d);
+        // console.log(Funcdata_3d);
+        //默认设定：距离在0-1的范围内，时间在0-1的范围内，真实数据实验要改
+        Generate_Graph_L_t(2,Funcdata_3d);
+        // Generate_Graph_L_deriv_t(3,Funcdata_3d);
+   
     //验证：目前t取得是0.1
     //验证：如果把时间离散开来，取得就是0.5那个聚类
-        
+
     </script>
 </body>
+
 </html>

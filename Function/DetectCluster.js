@@ -61,6 +61,12 @@ function cal_label(Funcdata, r) {
     
     //降序排列
     Llistsort.sort(function(a,b){return b-a});
+
+    //加入重复的
+    // for(let i=0;i<10;i++){
+    //     top10.push(Llist.indexOf(Llistsort[i]))
+    // }
+
     //不加入重复的
     let topindlist=[];
     for(let i=0;i<10;i++){

@@ -1,3 +1,4 @@
+
 /////////////////////////////////以下是球图生成///////////////////////////////////
 function Generate_series_sphere(){
     //生成适合于echarts的数组
@@ -68,72 +69,82 @@ function Generate_Graph_sphere(index,mydata){
 function generateLData_t(Funcdata) {
     let data = [];
     let arr=[];
-    for (let i = 0; i <= 1; i += 0.01) {
-        data.push([i,funcL_comp(i,Funcdata)[0]]);
-        arr.push(funcL_comp(i,Funcdata));
-        console.log(00);
+    for (let i = 0.01; i <= 1; i += 0.01) {
+        for(let j=0.01;j<=1;j+=0.01){
+            data.push([i,j,funcL_comp(i,j,Funcdata)]);
+            arr.push(funcL_comp(i,j,Funcdata));
+            console.log(00);
+        }
     }
     console.log(arr);
+    console.log(data);
     return data;
 }
 
 function Generate_Graph_L_t(index,Funcdata){
+    let data=generateLData_t(Funcdata);
+
     let chart=echarts.init(document.getElementById('main'+String(index)));
-    let option= {
-        animation: false,
-        grid: {
-            top: 40,
-            left: 50,
-            right: 40,
-            bottom: 50
+    let option = {
+        tooltip: {},
+        backgroundColor: '#fff',
+        xAxis3D: {
+          type: 'value'
         },
-        xAxis: {
-            name: 'x',
-            minorTick: {
-                show: true
-            },
-            minorSplitLine: {
-                show: true
-            }
+        yAxis3D: {
+          type: 'value'
         },
-        yAxis: {
-            name: 'y',
-            min: -1,
-            max: 1,
-            minorTick: {
-                show: true
-            },
-            minorSplitLine: {
-                show: true
-            }
+        zAxis3D: {
+          type: 'value',
+          min: 0,
+          max: 100
         },
-        dataZoom: [
-            {
-                show: true,
-                type: 'inside',
-                filterMode: 'none',
-                xAxisIndex: [0],
-                startValue: -20,
-                endValue: 20
-            },
-            {
-                show: true,
-                type: 'inside',
-                filterMode: 'none',
-                yAxisIndex: [0],
-                startValue: -20,
-                endValue: 20
+        grid3D: {
+          viewControl: {
+            alpha: 20,
+            beta: -30
+          },
+          postEffect: {
+            enable: true,
+            SSAO: {
+              enable: true
             }
-        ],
+          },
+          boxDepth: 120,
+          light: {
+            main: {
+              shadow: true,
+              intensity: 2
+            },
+            ambientCubemap: {
+              texture: './Source/canyon.hdr',
+              exposure: 2,
+              diffuseIntensity: 0.2,
+              specularIntensity: 1
+            }
+          }
+        },
         series: [
-            {
-                type: 'line',
-                showSymbol: false,
-                clip: true,
-                data: generateLData_t(Funcdata)
-            }
-        ]  
-    };
+          {
+            type: 'bar3D',
+            shading: 'realistic',
+            barSize: 1,
+            wireframe: {
+              show: false
+            },
+            itemStyle: {
+              color: function (params) {
+                var i = params.dataIndex;
+                var r = 0;
+                var g = 0;
+                var b = 0;
+                return 'rgb(' + [r, g, b].join(',') + ')';
+              }
+            },
+            data: data
+          }
+        ]
+      };
     chart.setOption(option)    
 }
 

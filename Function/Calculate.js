@@ -1,3 +1,25 @@
+//角度计算
+function AngleCal(x1,y1,x2,y2,x3,y3,x4,y4){
+    var included_angle=180;
+    dx1=x2-x1;
+    dy1=y2-y1;
+    dx2=x4-x3;
+    dy2=y4-y3;
+    angle1=Math.atan2(dy1,dx1);
+    angle1=angle1*180/Math.PI;
+    angle2=Math.atan2(dy2,dx2);
+    angle2=angle2*180/Math.PI;
+    if(angle1*angle2>=0){
+        included_angle=Math.abs(angle1-angle2);
+    }
+    else{
+        included_angle=Math.abs(angle1)+Math.abs(angle2);
+    }
+    if(included_angle>180){
+        included_angle=360-included_angle;
+    }
+    return included_angle
+}
 //流距离计算
 function FlowDis(data1, data2) {
     dis_o = Math.sqrt((data1[0][0] - data2[0][0]) * (data1[0][0] - data2[0][0]) + (data1[0][1] - data2[0][1]) * (data1[0][1] - data2[0][1]))
@@ -7,13 +29,15 @@ function FlowDis(data1, data2) {
 //K函数
 function funcK(x,Funcdata) {
     //x为距离
+    let angletherld=20;
     var K = 0;
     var Upper = 0;
     for (var i = 0; i < Funcdata.length; i++) {
         for (var j = i + 1; j < Funcdata.length; j++) {
             var sita = 0;
             if (FlowDis(Funcdata[i], Funcdata[j]) <= x)
-                sita = 1;
+                if(AngleCal(Funcdata[i][0][0],Funcdata[i][0][1],Funcdata[i][1][0],Funcdata[i][1][1],Funcdata[j][0][0],Funcdata[j][0][1],Funcdata[j][1][0],Funcdata[j][1][1])<angletherld)
+                    sita = 1;
             Upper += sita;
         }
     }
@@ -36,6 +60,7 @@ function funcK(x,Funcdata) {
 function funcL(x,Funcdata) {
     var L = 0;
     L = Math.pow(funcK(x,Funcdata) / (Math.PI * Math.PI), 0.25) - x;
+    // L = Math.pow(funcK(x,Funcdata) /((Math.PI * Math.PI)*(x*x)), 0.5) - x;
     return L;
 }
 //导数计算
